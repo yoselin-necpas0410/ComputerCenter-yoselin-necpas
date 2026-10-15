@@ -226,10 +226,10 @@ public class Shop {
 		try {
 			BufferedReader bf = new BufferedReader(new FileReader(f));
 			String Linea = "";
-			while(Linea = bf.readLine() != null)
-			{
+			// while(Linea = bf.readLine() != null)
+			//{
 				
-			}
+			//}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
