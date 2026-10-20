@@ -221,7 +221,8 @@ public class Shop {
 	 */
 	private void readInventory() {
 		File f = new File(System.getProperty("user.dir") + File.separator + "files" + File.separator + ITEMS_FILE);
-
+		// Hauré de fer canvis en aquesta linia, perque sino no funcionarà 
+		
 		// TODO RA1-ISSUE-03: obrir el fitxer, llegir-lo linia a linia i afegir cada producte a inventory.
 		try {
 			BufferedReader bf = new BufferedReader(new FileReader(f));
