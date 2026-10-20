@@ -220,18 +220,22 @@ public class Shop {
 	 * read inventory from file
 	 */
 	private void readInventory() {
-		File f = new File(System.getProperty("user.dir") + File.separator + "files" + File.separator + ITEMS_FILE);
+		File f = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "model" + File.separator + "files" + File.separator + ITEMS_FILE);
 		// Hauré de fer canvis en aquesta linia, perque sino no funcionarà 
 		
 		// TODO RA1-ISSUE-03: obrir el fitxer, llegir-lo linia a linia i afegir cada producte a inventory.
 		try {
 			BufferedReader bf = new BufferedReader(new FileReader(f));
 			String Linea = "";
-			// while(Linea = bf.readLine() != null)
-			//{
-				
-			//}
-		} catch (FileNotFoundException e) {
+			while ((Linea = bf.readLine()) != null)
+			{
+				 System.out.println("Línia llegida: " + Linea);
+				 
+				 
+				// El que deixo preparat per la ISSUE 04
+		        // Product product = parseProductLine(linea);
+			}
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
