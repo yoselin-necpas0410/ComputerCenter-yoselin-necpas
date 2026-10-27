@@ -1,10 +1,12 @@
 package main;
 
+
 import model.Product;
 import model.Sale;
 import model.Amount;
 import model.Client;
 import model.Employee;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Shop {
 	private static final Scanner CONSOLE = new Scanner(System.in);
 	private Amount cash = new Amount(100.00);
@@ -27,8 +30,10 @@ public class Shop {
 	private ArrayList<Sale> sales;
 	private int numberSales;
 
+
 	final static double TAX_RATE = 1.04;
 	private static final String ITEMS_FILE = "items.txt";
+
 
 	public Shop() {
 		inventory = new ArrayList<Product>();
@@ -37,9 +42,13 @@ public class Shop {
 	
 	
 
+
 	public Amount getCash() {
 		return cash;
 	}
+
+
+
 
 
 
@@ -49,9 +58,15 @@ public class Shop {
 
 
 
+
+
+
 	public ArrayList<Product> getInventory() {
 		return inventory;
 	}
+
+
+
 
 
 
@@ -61,9 +76,15 @@ public class Shop {
 
 
 
+
+
+
 	public int getNumberProducts() {
 		return numberProducts;
 	}
+
+
+
 
 
 
@@ -73,9 +94,15 @@ public class Shop {
 
 
 
+
+
+
 	public ArrayList<Sale> getSales() {
 		return sales;
 	}
+
+
+
 
 
 
@@ -85,9 +112,15 @@ public class Shop {
 
 
 
+
+
+
 	public int getNumberSales() {
 		return numberSales;
 	}
+
+
+
 
 
 
@@ -97,8 +130,12 @@ public class Shop {
 
 
 
+
+
+
 	public static void main(String[] args) {
 		Shop shop = new Shop();
+
 
 		// load inventory from external data
 		shop.loadInventory();
@@ -106,9 +143,11 @@ public class Shop {
 		// init session as employee
 		shop.initSession();
 
+
 		Scanner scanner = CONSOLE;
 		int opcion = 0;
 		boolean exit = false;
+
 
 		do {
 			System.out.println("\n");
@@ -129,46 +168,57 @@ public class Shop {
 			System.out.print("Seleccioneu una opció: ");
 			opcion = scanner.nextInt();
 
+
 			switch (opcion) {
 			case 1:
 				shop.showCash();
 				break;
 
+
 			case 2:
 				shop.addProduct();
 				break;
+
 
 			case 3:
 				shop.addStock();
 				break;
 
+
 			case 4:
 				shop.setExpired();
 				break;
+
 
 			case 5:
 				shop.showInventory();
 				break;
 
+
 			case 6:
 				shop.sale();
 				break;
+
 
 			case 7:
 				shop.showSales();
 				break;
 
+
 			case 8:
 				shop.showSalesAmount();
 				break;
+
 
 			case 9:
 				shop.removeProduct();
 				break;
 
+
 			case 10:
 				shop.saveInventory();
 				break;
+
 
 			case 11:
 				System.out.println("Tancant el programa ...");
@@ -176,9 +226,12 @@ public class Shop {
 				break;
 			}
 
+
 		} while (!exit);
 
+
 	}
+
 
 	private void initSession() {
 		// TODO Auto-generated method stub
@@ -204,6 +257,7 @@ public class Shop {
 				
 	}
 
+
 	/**
 	 * load initial inventory to shop
 	 */
@@ -215,6 +269,7 @@ public class Shop {
 		// now read from file
 		this.readInventory();
 	}
+
 
 	/**
 	 * read inventory from file
@@ -232,9 +287,14 @@ public class Shop {
 				 System.out.println("Línia llegida: " + Linea);
 				 
 				 
-				// El que deixo preparat per la ISSUE 04
-		        // Product product = parseProductLine(linea);
+				 Product product = parseProductLine(Linea);
+
+
+			     if (product != null) {
+			         addProduct(product);
+			         System.out.println("El producte afegit: " + product);
 			}
+		  }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -243,17 +303,56 @@ public class Shop {
 		
 		// TODO RA1-ISSUE-04: delegar la conversio de cada linia a parseProductLine.
 		// TODO RA1-ISSUE-11: tractar fitxer absent o error de lectura amb un missatge comprensible.
-		System.out.println("RA1-ISSUE-03 pendent: encara no s'ha carregat " + f.getPath());
+		System.out.println("Inventari llegit correctament " + f.getPath());
 	}
+
 
 	/**
 	 * Convert a valid line from items.txt into a Product.
 	 */
 	private Product parseProductLine(String line) {
 		// TODO RA1-ISSUE-04: validar camps, convertir preu i estoc, i retornar un Product.
+		String[] camps = line.split(";");
+
+
+	    String nom = "";
+	    double preu = 0.0;
+	    int stock = 0;
+
+
+	    for (String camp : camps) {
+
+
+	        if (camp.startsWith("Item:")) {
+	            nom = camp.substring("Item:".length());
+	        }
+
+
+	        else if (camp.startsWith("Wholesaler Price:")) {
+	            preu = Double.parseDouble(
+	                    camp.substring("Wholesaler Price:".length()));
+	        }
+
+
+	        else if (camp.startsWith("Stock:")) {
+	            stock = Integer.parseInt(
+	                    camp.substring("Stock:".length()));
+	        }
+	    }
+
+
+	    return new Product(
+	            nom,
+	            new Amount(preu),
+	            true,
+	            stock);
+	} 
+		
+		
 		// TODO RA1-ISSUE-05: decidir com es tracten les linies mal formades.
-		return null;
-	}
+		//return null;
+	//}
+
 
 	/**
 	 * Save the current inventory to items.txt.
@@ -263,12 +362,14 @@ public class Shop {
 		System.out.println("RA1-ISSUE-09 pendent: encara no s'ha desat l'inventari.");
 	}
 
+
 	/**
 	 * show current total cash
 	 */
 	private void showCash() {
 		System.out.println("Diners actuals: " + cash);
 	}
+
 
 	/**
 	 * add a new product to inventory getting data from console
@@ -278,6 +379,7 @@ public class Shop {
 		System.out.println("RA1-ISSUE-06 pendent: encara no es poden afegir articles.");
 	}
 
+
 	/**
 	 * remove a new product to inventory getting data from console
 	 */
@@ -285,6 +387,7 @@ public class Shop {
 		// TODO RA1-ISSUE-08: retirar un Product de inventory sense alterar la resta.
 		System.out.println("RA1-ISSUE-08 pendent: encara no es poden eliminar articles.");
 	}
+
 
 	/**
 	 * add stock for a specific product
@@ -294,6 +397,7 @@ public class Shop {
 		System.out.println("RA1-ISSUE-07 pendent: encara no es pot modificar l'estoc.");
 	}
 
+
 	/**
 	 * set a product as expired
 	 */
@@ -302,13 +406,16 @@ public class Shop {
 		System.out.print("Seleccioneu un nom d'article: ");
 		String name = scanner.next();
 
+
 		Product product = findProduct(name);
+
 
 		if (product != null) {
 			product.expire();
 			System.out.println("El preu de l'article " + name + " s'ha actualitzat a " + product.getPublicPrice());
 		}
 	}
+
 
 	/**
 	 * show all inventory
@@ -322,6 +429,7 @@ public class Shop {
 		}
 	}
 
+
 	/**
 	 * make a sale of products to a client
 	 */
@@ -332,10 +440,12 @@ public class Shop {
 		String nameClient = sc.nextLine();
 		Client client = new Client(nameClient);
 
+
 		// sale product until input name is not 0
 		// Product[] shoppingCart = new Product[10];
 		ArrayList<Product> shoppingCart = new ArrayList<Product>();
 		int numberShopping = 0;
+
 
 		Amount totalAmount = new Amount(0.0);
 		String name = "";
@@ -343,11 +453,13 @@ public class Shop {
 			System.out.println("Introduïu el nom de l'article, escriviu 0 per acabar:");
 			name = sc.nextLine();
 
+
 			if (name.equals("0")) {
 				break;
 			}
 			Product product = findProduct(name);
 			boolean productAvailable = false;
+
 
 			if (product != null && product.isAvailable()) {
 				productAvailable = true;
@@ -362,10 +474,12 @@ public class Shop {
 				System.out.println("Article afegit correctament");
 			}
 
+
 			if (!productAvailable) {
 				System.out.println("Article no trobat o sense estoc");
 			}
 		}
+
 
 		totalAmount.setValue(totalAmount.getValue() * TAX_RATE);
 		// show cost total
@@ -376,16 +490,20 @@ public class Shop {
 			System.out.println("El client deu: " + client.getBalance());;
 		}
 
+
 		// create sale
 		Sale sale = new Sale(client, shoppingCart, totalAmount);
+
 
 		// add to shop
 		sales.add(sale);
 //		numberSales++;
 
+
 		// add to cash
 		cash.setValue(cash.getValue() + totalAmount.getValue());
 	}
+
 
 	/**
 	 * show all sales
@@ -407,6 +525,7 @@ public class Shop {
 		} 
 		
 	}
+
 
 	/**
 	 * write in file the sales done
@@ -460,6 +579,7 @@ public class Shop {
 		}		
 	}
 
+
 	/**
 	 * show total amount all sales
 	 */
@@ -473,6 +593,7 @@ public class Shop {
 		System.out.println("Total de vendes:");
 		System.out.println(totalAmount);
 	}
+
 
 	/**
 	 * add a product to inventory
@@ -490,6 +611,7 @@ public class Shop {
 	
 	
 
+
 	/**
 	 * check if inventory is full or not
 	 */
@@ -500,7 +622,9 @@ public class Shop {
 			return false;
 		}
 
+
 	}
+
 
 	/**
 	 * find product by name
@@ -515,6 +639,8 @@ public class Shop {
 		}
 		return null;
 
+
 	}
+
 
 }
