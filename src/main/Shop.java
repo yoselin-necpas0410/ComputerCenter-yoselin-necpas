@@ -312,47 +312,42 @@ public class Shop {
 	 */
 	private Product parseProductLine(String line) {
 		// TODO RA1-ISSUE-04: validar camps, convertir preu i estoc, i retornar un Product.
-		String[] camps = line.split(";");
+		try {
+			String[] camps = line.split(";");
 
+			String nom = "";
+			double preu = 0.0;
+			int stock = 0;
 
-	    String nom = "";
-	    double preu = 0.0;
-	    int stock = 0;
+			for (String camp : camps) {
 
+				if (camp.startsWith("Item:")) {
+					nom = camp.substring("Item:".length());
+				}
 
-	    for (String camp : camps) {
+				else if (camp.startsWith("Wholesaler Price:")) {
+					preu = Double.parseDouble(camp.substring("Wholesaler Price:".length()));
+				}
 
+				else if (camp.startsWith("Stock:")) {
+					stock = Integer.parseInt(camp.substring("Stock:".length()));
+				}
+			}
 
-	        if (camp.startsWith("Item:")) {
-	            nom = camp.substring("Item:".length());
-	        }
+			return new Product(
+					nom, 
+					new Amount(preu), 
+					true, stock);
 
-
-	        else if (camp.startsWith("Wholesaler Price:")) {
-	            preu = Double.parseDouble(
-	                    camp.substring("Wholesaler Price:".length()));
-	        }
-
-
-	        else if (camp.startsWith("Stock:")) {
-	            stock = Integer.parseInt(
-	                    camp.substring("Stock:".length()));
-	        }
-	    }
-
-
-	    return new Product(
-	            nom,
-	            new Amount(preu),
-	            true,
-	            stock);
-	} 
-		
 		
 		// TODO RA1-ISSUE-05: decidir com es tracten les linies mal formades.
-		//return null;
-	//}
+		} catch (Exception e) {
 
+			System.out.println("Linia incorrecta ignorada: " + line);
+
+			return null;
+		}
+	}
 
 	/**
 	 * Save the current inventory to items.txt.
