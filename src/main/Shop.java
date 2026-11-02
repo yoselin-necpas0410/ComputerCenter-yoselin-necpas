@@ -371,8 +371,35 @@ public class Shop {
 	 */
 	public void addProduct() {
 		// TODO RA1-ISSUE-06: demanar dades minimes, crear un Product i afegir-lo a inventory.
-		System.out.println("RA1-ISSUE-06 pendent: encara no es poden afegir articles.");
-	}
+		
+		Scanner scanner = CONSOLE;
+		
+		scanner.nextLine();
+		
+		System.out.print("Nom del producte: ");
+		String nom = scanner.nextLine();
+
+	    System.out.print("Preu majorista: ");
+	    double preu = scanner.nextDouble();
+
+	    System.out.print("Stock: ");
+	    int stock = scanner.nextInt();
+	    
+	    if (nom.isEmpty() || preu <= 0 || stock < 0) {
+	        System.out.println("Dades no vàlides.");
+	        return;
+	    }
+	    Product product = new Product(
+	            nom,
+	            new Amount(preu),
+	            true,
+	            stock);
+
+	    addProduct(product);
+
+	    System.out.println("Producte afegit correctament:");
+	    System.out.println(product);
+	}		
 
 
 	/**
