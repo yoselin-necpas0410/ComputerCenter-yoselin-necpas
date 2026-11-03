@@ -295,17 +295,17 @@ public class Shop {
 			         System.out.println("El producte afegit: " + product);
 			}
 		  }
+		} catch (FileNotFoundException e) {
+			System.out.println("Avís: El fitxer d'inventari '" + ITEMS_FILE + "' no s'ha trobat.");
+			System.out.println("Recuperació: S'inicia el programa amb un inventari buit sense fallar.");
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error de lectura inesperat en accedir a l'inventari: " + e.getMessage());
 		}
-		
+	}
 		
 		// TODO RA1-ISSUE-04: delegar la conversio de cada linia a parseProductLine.
 		// TODO RA1-ISSUE-11: tractar fitxer absent o error de lectura amb un missatge comprensible.
-		System.out.println("Inventari llegit correctament " + f.getPath());
-	}
-
 
 	/**
 	 * Convert a valid line from items.txt into a Product.
