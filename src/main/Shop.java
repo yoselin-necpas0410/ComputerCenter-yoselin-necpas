@@ -375,7 +375,7 @@ public class Shop {
 			System.out.println("Error al desar l'inventari: " + e.getMessage());
 		}
 	}	
-
+     //He fet una prova d'eliminar un producte per la ISSUE-10
 
 	/**
 	 * show current total cash
