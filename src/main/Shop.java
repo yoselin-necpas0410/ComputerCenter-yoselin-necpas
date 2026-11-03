@@ -376,6 +376,8 @@ public class Shop {
 		}
 	}	
      //He fet una prova d'eliminar un producte per la ISSUE-10
+	
+	//PRova 2
 
 	/**
 	 * show current total cash
