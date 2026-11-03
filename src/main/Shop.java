@@ -407,7 +407,26 @@ public class Shop {
 	 */
 	public void removeProduct() {
 		// TODO RA1-ISSUE-08: retirar un Product de inventory sense alterar la resta.
-		System.out.println("RA1-ISSUE-08 pendent: encara no es poden eliminar articles.");
+		
+		Scanner scanner = CONSOLE;
+		
+		scanner.nextLine();
+		
+		System.out.print("Nom del producte a eliminar: ");
+		String nom = scanner.nextLine();
+		
+		Product product = findProduct(nom);
+		
+	    if (product == null) {
+	        System.out.println("Producte no trobat.");
+	        return;
+	    }
+	    
+	    inventory.remove(product);
+	    numberProducts--;
+	    
+	    
+		System.out.println("El producte ha sigut eliminat correctament.");
 	}
 
 
@@ -431,15 +450,17 @@ public class Shop {
 	        return;
 	    }
 	    
-	    System.out.println("Estoc actual: " + product.getStock());
+	    System.out.print("Unitats a afegir: ");
+	    int unitats = scanner.nextInt();
 	    
-	    System.out.print("Nou estoc: ");
-	    int nouStock = scanner.nextInt();
+	    if (unitats <= 0) {
+	        System.out.println("Quantitat no vàlida.");
+	        return;
+	    }
 	    
-	    product.setStock(nouStock);
+	    product.setStock(product.getStock() + unitats);
 		
-		System.out.println("L'estoc ha sigut actualitzat correctament.");
-		System.out.println(product);
+	    System.out.println("Nou estoc: " + product.getStock());
 	}
 
 
