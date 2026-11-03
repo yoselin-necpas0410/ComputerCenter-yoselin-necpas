@@ -354,8 +354,27 @@ public class Shop {
 	 */
 	public void saveInventory() {
 		// TODO RA1-ISSUE-09: convertir cada Product en una linia i reescriure items.txt.
-		System.out.println("RA1-ISSUE-09 pendent: encara no s'ha desat l'inventari.");
-	}
+		
+		File f = new File(System.getProperty("user.dir")
+				+ File.separator + "src"
+				+ File.separator + "model"
+				+ File.separator + "files"
+				+ File.separator + ITEMS_FILE);
+
+		try (PrintWriter pw = new PrintWriter(f)) {
+			for (Product product : inventory) {
+				if (product != null) {
+					pw.println("Item:" + product.getName() 
+							+ ";Wholesaler Price:" + product.getWholesalerPrice().getValue() 
+							+ ";Stock:" + product.getStock() + ";");
+				}
+			}
+			System.out.println("Inventari desat correctament al fitxer " + f.getName());
+			
+		} catch (IOException e) {
+			System.out.println("Error al desar l'inventari: " + e.getMessage());
+		}
+	}	
 
 
 	/**
